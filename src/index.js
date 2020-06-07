@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
 
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
@@ -48,6 +48,27 @@ const CheckoutPage = () => {
     );
 }
 
+const LaptopsPage = () => {
+    return (
+        <div>
+            <RenderSideBar/>
+            <div className={'main'}>
+                <h2>Laptops Page</h2>
+            </div>
+        </div>
+    );
+}
+
+const PhonesPage = () => {
+    return (
+        <div>
+            <RenderSideBar/>
+            <div className={'main'}>
+                <h2>Phones Page</h2>
+            </div>
+        </div>
+    );
+}
 
 const AcerPage = () => {
     return (
@@ -169,31 +190,52 @@ const HomePage = () => {
 
 const RenderSideBar = () => {
 
-    // render side bar consists of a drop down for each product type (laptops, phones).
+    // render side bar consists of a dropdown for each product type (laptops, phones) with links towards the specific page.
     //   every dropdown contains every product link to the specific page
+    // if the window width is smaller than 1000px (this goes for mobiles) avoid using drop down and use links for product only
     return (
-        <div>
-            <div className='sidenav'>
+        <Fragment>
+            <div className={'side-nav'}>
+
+
                 {Object.keys(products).map((product, prodIndex) => {
                     return (
-                        <div>
-                            <div className={'dropdown-div'} key={prodIndex}>{product}</div>
-                            <div className={'dropdown-content'}>
-                                {Object.keys(products[product]).map((prodType, prodTypeIndex) => {
-                                    return (
-                                        <Link key={prodTypeIndex} to={prodType.toLowerCase()}>
-                                            <li key={prodTypeIndex} value={prodType}>{prodType}</li>
-                                        </Link>
-                                    )
-                                })}
+                        <Fragment>
+
+                            {/* if window width > 1000 class is the one used for desktop, else class is the one used for mobile*/}
+                            <div className={window.innerWidth > 1000 ? 'dropdown-div' : 'inline-div'} key={prodIndex}>
+                                <Link key={prodIndex} to={product.toLowerCase()}>
+                                    {product}
+                                </Link>
                             </div>
-                        </div>
+
+                            {
+                                // This applies for desktop view
+                                window.innerWidth > 1000 ?
+
+                                    <div className={'dropdown-content'}>
+                                        {Object.keys(products[product]).map((prodType, prodTypeIndex) => {
+                                            return (
+                                                <Link key={prodTypeIndex} to={prodType.toLowerCase()}>
+                                                    {prodType}
+                                                </Link>
+                                            );
+
+                                        })}
+                                    </div>
+
+                                    :
+
+                                    // do not render div with dropdown-content class in case the width is smaller than 1000 px
+                                    null}
+                        </Fragment>
                     )
                 })}
             </div>
-        </div>
-    )
+        </Fragment>
+    );
 }
+
 
 const App = () => {
     return (
@@ -203,6 +245,8 @@ const App = () => {
                 <Route path={'/'} exact component={HomePage}/>
                 <Route path={'/cart'} component={CartPage}/>
                 <Route path={'/checkout'} component={CheckoutPage}/>
+                <Route path={'/laptops'} component={LaptopsPage}/>
+                <Route path={'/phones'} component={PhonesPage}/>
                 <Route path={'/acer'} component={AcerPage}/>
                 <Route path={'/hp'} component={HpPage}/>
                 <Route path={'/dell'} component={DellPage}/>

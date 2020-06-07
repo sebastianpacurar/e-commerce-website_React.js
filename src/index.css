@@ -25,7 +25,7 @@ body {
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 10px 14px;
+    padding: 10px 10px 14px;
     text-decoration: none;
     list-style-type: none;
 }
@@ -37,87 +37,27 @@ body {
     cursor: pointer;
 }
 
-/* Create two unequal columns that floats next to each other */
-/* Left column */
-.leftcolumn {
-    float: left;
-    width: 75%;
-}
 
-/* Right column */
-.rightcolumn {
-    float: left;
-    width: 25%;
-    background-color: #f1f1f1;
-    padding-left: 20px;
-}
-
-/* Fake image */
-.fakeimg {
-    background-color: #aaa;
-    width: 100%;
-    padding: 20px;
-}
-
-/* Add a card effect for articles */
-.card {
-    background-color: white;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-/* Footer */
-.footer {
-    padding: 20px;
-    text-align: center;
-    background: #ddd;
-    margin-top: 20px;
-}
-
-/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 800px) {
-    .leftcolumn, .rightcolumn {
-        width: 100%;
-        padding: 0;
-    }
-}
-
-/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
-@media screen and (max-width: 400px) {
-    .topnav a {
-        float: none;
-        width: 100%;
-    }
-}
-
-
-/*HOME PAGE*/
-.sidenav {
+/* Side nav is the actual navigation bar between products*/
+.side-nav {
     height: 100%;
-    width: 150px;
-    top: 73px;
-    left: 0;
+    width: 10%;
     position: fixed;
+    top: 67px;
+    left: 0;
     background-color: darkslateblue;
     overflow-x: hidden;
-    padding-top: 20px;
+    padding-top: 2.5%;
 }
 
-.sidenav a, .dropdown-div {
+
+.side-nav a, .dropdown-div a {
     padding: 6px 8px 6px 16px;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 150%;
     font-weight: bold;
     color: yellow;
     display: block;
-    border: none;
     background: none;
     width: 100%;
     text-align: left;
@@ -125,24 +65,25 @@ body {
     outline: none;
 }
 
+
 .dropdown-content a:hover {
     color: red;
 }
 
 
-/* hide the months */
+/* hide the product items */
 .dropdown-content {
     display: none;
     padding-left: 20px;
 }
 
 
-/* reveal the months when hover over them*/
+/* reveal the product items when hover over them*/
 .dropdown-content:hover {
     display: block;
 }
 
-
+/* reveal the product items when hover over them*/
 .dropdown-div:hover + .dropdown-content {
     display: block;
 }
@@ -150,23 +91,66 @@ body {
 
 /* used to display all products on the right side of the navigation bar*/
 .main {
-    margin-top: 70px;
-    margin-left: 150px; /* Same as the width of the sidenav */
-    padding: 0 10px;
-}
-
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
-
-    .sidenav div button {
-        font-size: 15px;
-    }
+    margin-top: 60px;
+    margin-left: 10%; /* Same as the width of the side-nav */
 }
 
 
-/*used for checkout, cart, home pages*/
+/* used for checkout, cart, home pages*/
 .cart-checkout {
-    margin-top: 70px;
+    margin-top: 60px;
+}
+
+
+/* Applies for mobile view*/
+@media (max-width: 1000px) {
+
+    /* Navigation bar*/
+    .nav-list {
+        height: 40px;
+    }
+
+
+    /* Style the topnav links */
+    .nav-list li, a {
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 5px 5px 7px;
+        text-decoration: none;
+        list-style-type: none;
+    }
+
+
+    /* Side Bar*/
+    .side-nav {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        top: 80%;
+        color: white;
+        background-color: darkslateblue;
+        text-align: left;
+        display: inline;
+    }
+
+
+    .side-nav .inline-div {
+        display: inline-block;
+        font-size: 10px;
+    }
+
+
+    .main {
+        margin-top: 40px;
+        margin-left: 0;
+    }
+
+
+    /* used for checkout, cart, home pages*/
+    .cart-checkout {
+        margin-top: 40px;
+    }
 }
