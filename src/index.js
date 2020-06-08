@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import ReactDOM from 'react-dom';
 
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
@@ -142,47 +142,46 @@ const XiaomiPage = () => {
 }
 
 
-const HomePage = () => {
-    const prodItems = [];
+const HomePage = ({prodItems, addToCart}) => {
 
-    // compose a list of every product as a json which contains the product and details about it.
-    //   this is needed to render the homepage with specific products
-    for (let prod in products) {
-        if (products.hasOwnProperty(prod)) {
-            for (let brand in products[prod]) {
-                if (products[prod].hasOwnProperty(brand)) {
-                    for (let item in products[prod][brand]) {
-                        if (products[prod][brand].hasOwnProperty(item)) {
-                            for (let itemType in products[prod][brand][item]) {
-                                if (products[prod][brand][item].hasOwnProperty(itemType)) {
-                                    prodItems.push({
-                                        'product': prod,
-                                        'brand': brand,
-                                        'item': item,
-                                        'image': products[prod][brand][item]['image'],
-                                        'details': products[prod][brand][item]['details'],
-                                    })
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    // TODO - implemented in the future
-    // make a list for every electronic type
-    const phones = prodItems.filter(key => key['product'] === 'Phones')
-    const laptops = prodItems.filter(key => key['product'] === 'Laptops')
-
-
+    // TODO - Implemented for mobile only
     return (
         <div>
             <RenderSideBar/>
+
+            {/*this consists of cards of products in which every product has a name, photo, price, and Add To Cart button*/}
             <div className={'main'}>
-                <h2>Home Page</h2>
+                {prodItems.map((prod, index) => {
+                    return (
+                        <div className={'card'} key={index}>
+
+                            <img
+                                className={'card-image'}
+                                src={prod['image']}
+                                alt={`${prod['brand']} - ${prod['item']}`}
+                                key={`img-${index}`}
+                            />
+                            <h2 key={`header-${index}`}>{prod['brand']} - {prod['item']}</h2>
+                            <p key={`price-${index}`} className={'price'}>{`$${prod['details']['price']}`}</p>
+
+                            <div key={`visit-${index}`} className={'visit-link'}>
+                                <Link
+                                    key={`link-${index}`}
+                                    to={`${prod['item'].replace(' ', '_').toLowerCase()}`}
+                                    value={prod['item']}
+
+                                >
+                                    Visit Product
+                                </Link>
+                            </div>
+
+                            <button key={`addToCart-${index}`} value={prod['item']} onClick={(e) => addToCart(e)}>
+                                Add To Cart
+                            </button>
+
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )
@@ -200,11 +199,12 @@ const RenderSideBar = () => {
 
                 {Object.keys(products).map((product, prodIndex) => {
                     return (
-                        <Fragment>
+                        <Fragment key={`fragment-${prodIndex}`}>
 
                             {/* if window width > 1000 class is the one used for desktop, else class is the one used for mobile*/}
-                            <div className={window.innerWidth > 1000 ? 'dropdown-div' : 'inline-div'} key={prodIndex}>
-                                <Link key={prodIndex} to={product.toLowerCase()}>
+                            <div className={window.innerWidth > 1000 ? 'dropdown-div' : 'inline-div'}
+                                 key={`dropdown-${prodIndex}`}>
+                                <Link key={`link-${prodIndex}`} to={product.toLowerCase()}>
                                     {product}
                                 </Link>
                             </div>
@@ -213,7 +213,7 @@ const RenderSideBar = () => {
                                 // This applies for desktop view
                                 window.innerWidth > 1000 ?
 
-                                    <div className={'dropdown-content'}>
+                                    <div key={`content-${prodIndex}`} className={'dropdown-content'}>
                                         {Object.keys(products[product]).map((prodType, prodTypeIndex) => {
                                             return (
                                                 <Link key={prodTypeIndex} to={prodType.toLowerCase()}>
@@ -238,12 +238,84 @@ const RenderSideBar = () => {
 
 
 const App = () => {
+
+    const prods = [];
+
+    // compose a list of every product as a json which contains the product and details about it.
+    //   this is needed to render the homepage with specific products
+    for (let prod in products) {
+        if (products.hasOwnProperty(prod)) {
+            for (let brand in products[prod]) {
+                if (products[prod].hasOwnProperty(brand)) {
+                    for (let item in products[prod][brand]) {
+                        if (products[prod][brand].hasOwnProperty(item)) {
+                            prods.push({
+                                'product': prod,
+                                'brand': brand,
+                                'item': item,
+                                'image': products[prod][brand][item]['image'],
+                                'details': products[prod][brand][item]['details'],
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // TODO - implemented in the future
+    // make a list for every electronic type
+    const phones = prods.filter(key => key['product'] === 'Phones')
+    const laptops = prods.filter(key => key['product'] === 'Laptops')
+
+    const [prodItems, setProdItems] = useState(prods);
+
+    const [cartItems, setCartItems] = useState([]);
+
+
+    // Add item to cartItems
+    const handleAddToCart = (e) => {
+
+        // data is the attribute for button which identifies the brand of the target
+
+        const clickedItem = prodItems.filter(product => {
+            return product['item'] === e.target.value;
+        })
+
+
+
+        // TODO: This logic is severely broken and needed to be dealt as soon as possible
+        if (cartItems.length > 0) {
+            for (let i = 0; i < cartItems.length; i++) {
+                if (cartItems[i][0]['item'] === clickedItem[0]['item'] && cartItems[i][0]['quantity'] > 0) {
+                    cartItems[i][0]['quantity'] += 1;
+                } else {
+                    clickedItem[0]['quantity'] = 1;
+                    setCartItems([...cartItems, clickedItem]);
+                }
+            }
+        } else {
+            clickedItem[0]['quantity'] = 1;
+            setCartItems([...cartItems, clickedItem]);
+        }
+    };
+
     return (
         <Router>
             <NavigationBar/>
             <Switch>
-                <Route path={'/'} exact component={HomePage}/>
-                <Route path={'/cart'} component={CartPage}/>
+                <Route
+                    path={'/'}
+                    exact
+                    render={() => <HomePage prodItems={prodItems} addToCart={handleAddToCart}/>}
+                />
+
+                <Route
+                    path={'/cart'}
+                    render={() => <CartPage cartItems={cartItems}/>}
+                />
+
                 <Route path={'/checkout'} component={CheckoutPage}/>
                 <Route path={'/laptops'} component={LaptopsPage}/>
                 <Route path={'/phones'} component={PhonesPage}/>
