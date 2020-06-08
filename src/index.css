@@ -1,5 +1,5 @@
 body {
-    font-family: 'Times New Roman', Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     padding: 10px;
     background: white;
     box-sizing: border-box;
@@ -129,11 +129,10 @@ body {
         left: 0;
         bottom: 0;
         width: 100%;
-        top: 80%;
+        top: 93%;
         color: white;
         background-color: darkslateblue;
         text-align: left;
-        display: inline;
     }
 
 
@@ -146,11 +145,68 @@ body {
     .main {
         margin-top: 40px;
         margin-left: 0;
+        margin-bottom: 50px;
     }
 
 
     /* used for checkout, cart, home pages*/
     .cart-checkout {
         margin-top: 40px;
+    }
+
+
+    /* Cards for home Page */
+    .card {
+        display: block;
+        width: 100%;
+        margin: 35px auto 35px auto;
+        box-shadow: 0px 0px 15px 4px rgba(230, 161, 23, 1);
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* The price */
+    .card .price {
+        color: grey;
+        font-size: 22px;
+    }
+
+    /* The visit product link*/
+    .card .visit-link {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: black;
+        text-align: center;
+        cursor: pointer;
+        margin: auto;
+        font-size: 18px;
+        display: inline-block;
+        user-select: none;
+    }
+
+
+    /* Add to cart button*/
+    .card button {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: blueviolet;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    /*Add to cart button on hover*/
+    .card button:active {
+        background-color: darkmagenta;
+    }
+
+    .card-image {
+        width: 100%;
+        height: auto;
     }
 }

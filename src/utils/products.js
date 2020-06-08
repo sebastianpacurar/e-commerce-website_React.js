@@ -18,7 +18,7 @@ export const products = {
         },
 
         'HP': {
-            'HP Pavilion': {
+            'Pavilion': {
                 'image': 'https://i.ibb.co/tBj7yDb/hp-pavilion.jpg',
                 'details': {
                     'brand name': 'HP',
@@ -35,7 +35,7 @@ export const products = {
         },
 
         'Dell': {
-            'Dell Latitude': {
+            'Latitude': {
                 'image': 'https://i.ibb.co/Zc05K3P/dell-latitude.jpg',
                 'details': {
                     'brand name': 'Dell',
@@ -84,7 +84,7 @@ export const products = {
         },
 
         'CAT': {
-            'CAT S41': {
+            'S41': {
                 'image': 'https://i.ibb.co/0s7kMkq/cat-s41.jpg',
                 'details': {
                     'display': 'IPS LCD capacitive touchscreen, 16M colors',
@@ -98,7 +98,7 @@ export const products = {
                 },
             },
 
-            'CAT S61': {
+            'S61': {
                 'image': 'https://i.ibb.co/h9J88mL/cat-s61.jpg',
                 'details': {
                     'display': 'IPS LCD capacitive touchscreen, 16M colors',
@@ -114,7 +114,7 @@ export const products = {
         },
 
         'Xiaomi': {
-            'Redmi-10x': {
+            'Redmi 10x': {
                 'image': 'https://i.ibb.co/vYC8dkV/xiaomi-redmi-10x.jpg',
                 'details': {
                     'display': 'AMOLED capacitive touchscreen, 16M colors\n',
