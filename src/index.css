@@ -96,8 +96,8 @@ body {
 }
 
 
-/* used for checkout, cart, home pages*/
-.cart-checkout {
+/* used for checkout, cart, home, individual product pages*/
+.cart-checkout-product {
     margin-top: 60px;
 }
 
@@ -122,7 +122,7 @@ body {
         list-style-type: none;
     }
 
-
+    /*End of Navigation bar*/
     /* Side Bar*/
     .side-nav {
         position: fixed;
@@ -141,7 +141,8 @@ body {
         font-size: 10px;
     }
 
-
+    /*End of Side Bar*/
+    /* Visual part between Nav Bar and Side Bar*/
     .main {
         margin-top: 40px;
         margin-left: 0;
@@ -149,12 +150,13 @@ body {
     }
 
 
-    /* used for checkout, cart, home pages*/
-    .cart-checkout {
+    /* used for checkout, cart, home, individual product pages*/
+    .cart-checkout-product {
         margin-top: 40px;
+        text-align: center;
     }
 
-
+    /* End of  Visual part between Nav Bar and Side Bar*/
     /* Cards for home Page */
     .card {
         display: block;
@@ -209,4 +211,40 @@ body {
         width: 100%;
         height: auto;
     }
+
+    /*end of Cards for Homepage*/
+    /*  Product table  */
+    table {
+        table-layout: auto;
+        width: 100%;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+    }
+
+    th {
+        position: sticky;
+        top: 39px;
+        background-color: orange;
+        border: 1px solid blueviolet;
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+        text-align: center;
+        padding: 8px;
+    }
+
+    td {
+        border: 1px solid blueviolet;
+        text-align: center;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: lightseagreen;
+    }
+
+    tr:nth-child(odd) {
+        background-color: lightgreen;
+    }
+
+
+    /*  End of Product Table  */
 }

@@ -30,24 +30,6 @@ const NavigationBar = () => {
 }
 
 
-const CartPage = () => {
-    return (
-        <div className={'cart-checkout'}>
-            <h2>Cart Page</h2>
-        </div>
-    );
-
-}
-
-
-const CheckoutPage = () => {
-    return (
-        <div className={'cart-checkout'}>
-            <h2>Checkout Page</h2>
-        </div>
-    );
-}
-
 const LaptopsPage = () => {
     return (
         <div>
@@ -59,6 +41,7 @@ const LaptopsPage = () => {
     );
 }
 
+
 const PhonesPage = () => {
     return (
         <div>
@@ -69,6 +52,7 @@ const PhonesPage = () => {
         </div>
     );
 }
+
 
 const AcerPage = () => {
     return (
@@ -105,19 +89,6 @@ const DellPage = () => {
     );
 }
 
-
-const CatPage = () => {
-    return (
-        <div>
-            <RenderSideBar/>
-            <div className={'main'}>
-                <h2>CAT Page</h2>
-            </div>
-        </div>
-    );
-}
-
-
 const IphonePage = () => {
     return (
         <div>
@@ -141,8 +112,104 @@ const XiaomiPage = () => {
     );
 }
 
+const CatPage = () => {
+    return (
+        <div>
+            <RenderSideBar/>
+            <div className={'main'}>
+                <h2>CAT Page</h2>
+            </div>
+        </div>
+    );
+}
+
+
+const CartPage = () => {
+    return (
+        <div className={'cart-checkout-product'}>
+            <h2>Cart Page</h2>
+        </div>
+    );
+}
+
+
+const CheckoutPage = () => {
+    return (
+        <div className={'cart-checkout-product'}>
+            <h2>Checkout Page</h2>
+        </div>
+    );
+}
+
+
+const ProductPage = ({prodItems, productName, addToCart}) => {
+
+    // filter the prodItems to get the clicked product
+    const prod = prodItems.filter(prod => {
+        return prod['item'] === productName
+    })
+
+    return (
+        <Fragment>
+            <div className={'cart-checkout-product'}>
+                <h3>{`${prod[0]['brand']} - ${prod[0]['item']}`}</h3>
+                <div
+                    className={'card'}
+                    style={{boxShadow: '0px 0px 0px -200px rgba(255,255,255,1)'}}>
+
+                    <img
+                        className={'card-image'}
+                        src={prod[0]['image']}
+                        alt={`${prod[0]['brand']} - ${prod[0]['item']}`}
+                    />
+
+                    <button value={prod['item']} onClick={(e) => addToCart(e)}>
+                        Add To Cart
+                    </button>
+
+                    <p
+                        className={'price'}
+                        style={{fontSize: '35px', color: 'purple'}}
+                    >{`$${prod[0]['details']['price']}`}</p>
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Specifications</th>
+                            <th>Descriptions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {Object.entries(prod[0]['details']).map(([key, value], index) => {
+                            return (
+                                <tr key={`tr-${index}`}>
+                                    <td>{key}</td>
+                                    <td>{value}</td>
+                                </tr>
+                            );
+                        })}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </Fragment>
+    );
+}
+
 
 const HomePage = ({prodItems, addToCart}) => {
+
+    // shuffle the array using Fisher-Yates algorithm
+    const shuffleItems = (arr) => {
+        for (let i = arr.length - 1; i > 0; i--) {
+            let j = Math.trunc(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]]
+        }
+    }
+
+    shuffleItems(prodItems);
 
     // TODO - Implemented for mobile only
     return (
@@ -167,7 +234,7 @@ const HomePage = ({prodItems, addToCart}) => {
                             <div key={`visit-${index}`} className={'visit-link'}>
                                 <Link
                                     key={`link-${index}`}
-                                    to={`${prod['item'].replace(' ', '_').toLowerCase()}`}
+                                    to={`/${prod['item'].replace(' ', '_').toLowerCase()}`}
                                     value={prod['item']}
 
                                 >
@@ -196,7 +263,6 @@ const RenderSideBar = () => {
         <Fragment>
             <div className={'side-nav'}>
 
-
                 {Object.keys(products).map((product, prodIndex) => {
                     return (
                         <Fragment key={`fragment-${prodIndex}`}>
@@ -204,7 +270,7 @@ const RenderSideBar = () => {
                             {/* if window width > 1000 class is the one used for desktop, else class is the one used for mobile*/}
                             <div className={window.innerWidth > 1000 ? 'dropdown-div' : 'inline-div'}
                                  key={`dropdown-${prodIndex}`}>
-                                <Link key={`link-${prodIndex}`} to={product.toLowerCase()}>
+                                <Link key={`link-${prodIndex}`} to={`/${product.toLowerCase()}`}>
                                     {product}
                                 </Link>
                             </div>
@@ -255,6 +321,7 @@ const App = () => {
                                 'item': item,
                                 'image': products[prod][brand][item]['image'],
                                 'details': products[prod][brand][item]['details'],
+                                'quantity': products[prod][brand][item]['quantity']
                             })
                         }
                     }
@@ -269,7 +336,7 @@ const App = () => {
     const phones = prods.filter(key => key['product'] === 'Phones')
     const laptops = prods.filter(key => key['product'] === 'Laptops')
 
-    const [prodItems, setProdItems] = useState(prods);
+    const [prodItems] = useState(prods);
 
     const [cartItems, setCartItems] = useState([]);
 
@@ -277,28 +344,25 @@ const App = () => {
     // Add item to cartItems
     const handleAddToCart = (e) => {
 
-        // data is the attribute for button which identifies the brand of the target
-
         const clickedItem = prodItems.filter(product => {
             return product['item'] === e.target.value;
         })
 
 
-
         // TODO: This logic is severely broken and needed to be dealt as soon as possible
-        if (cartItems.length > 0) {
-            for (let i = 0; i < cartItems.length; i++) {
-                if (cartItems[i][0]['item'] === clickedItem[0]['item'] && cartItems[i][0]['quantity'] > 0) {
-                    cartItems[i][0]['quantity'] += 1;
-                } else {
-                    clickedItem[0]['quantity'] = 1;
-                    setCartItems([...cartItems, clickedItem]);
-                }
-            }
-        } else {
-            clickedItem[0]['quantity'] = 1;
-            setCartItems([...cartItems, clickedItem]);
-        }
+        // if (cartItems.length > 0) {
+        //     for (let i = 0; i < cartItems.length; i++) {
+        //         if (cartItems[i][0]['item'] === clickedItem[0]['item'] && cartItems[i][0]['quantity'] > 0) {
+        //             cartItems[i][0]['quantity'] += 1;
+        //         } else {
+        //             clickedItem[0]['quantity'] = 1;
+        //             setCartItems([...cartItems, clickedItem]);
+        //         }
+        //     }
+        // } else {
+        //     clickedItem[0]['quantity'] = 1;
+        //     setCartItems([...cartItems, clickedItem]);
+        // }
     };
 
     return (
@@ -308,12 +372,12 @@ const App = () => {
                 <Route
                     path={'/'}
                     exact
-                    render={() => <HomePage prodItems={prodItems} addToCart={handleAddToCart}/>}
+                    render={(props) => <HomePage prodItems={prodItems} addToCart={handleAddToCart}/>}
                 />
 
                 <Route
                     path={'/cart'}
-                    render={() => <CartPage cartItems={cartItems}/>}
+                    render={(props) => <CartPage cartItems={cartItems}/>}
                 />
 
                 <Route path={'/checkout'} component={CheckoutPage}/>
@@ -325,6 +389,22 @@ const App = () => {
                 <Route path={'/iphone'} component={IphonePage}/>
                 <Route path={'/cat'} component={CatPage}/>
                 <Route path={'/xiaomi'} component={XiaomiPage}/>
+
+                {/* This mapping aplies to every single product, properties passed through render prop are the 'prodItems',
+                        the 'name of the product item' and the 'add to cart' functionality. mainly to sort the item in the ProductPage component*/}
+                {prodItems.map((prod, index) => {
+                    return (
+                        <Route
+                            path={`/${prod['item'].replace(' ', '_').toLowerCase()}`}
+                            render={(props) => <ProductPage
+                                prodItems={prodItems}
+                                productName={prod['item']}
+                                addToCart={handleAddToCart}
+                            />}
+                        />
+                    );
+                })}
+
             </Switch>
         </Router>
     );
