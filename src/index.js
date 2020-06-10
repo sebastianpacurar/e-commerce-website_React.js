@@ -7,7 +7,7 @@ import {products} from "./utils/products";
 
 import './index.css';
 
-const NavigationBar = () => {
+const NavigationBar = ({itemsInCart}) => {
     return (
         <nav>
             <ul className={'nav-list'}>
@@ -17,7 +17,7 @@ const NavigationBar = () => {
                 </Link>
 
                 <Link to={'/cart'}>
-                    <li>Cart</li>
+                    <li>Cart ({itemsInCart})</li>
                 </Link>
 
                 <Link to={'/checkout'}>
@@ -45,7 +45,6 @@ const LaptopsPage = () => {
 const PhonesPage = () => {
     return (
         <div>
-            <RenderSideBar/>
             <div className={'main'}>
                 <h2>Phones Page</h2>
             </div>
@@ -124,11 +123,103 @@ const CatPage = () => {
 }
 
 
-const CartPage = () => {
+const CartPage = ({cartItems, clickQuantity}) => {
+
+    const totalPrice = [];
+
+    for (let i = 0; i < cartItems.length; i++) {
+        const productParsedPrice = cartItems[i]['price'] * cartItems[i]['quantity'];
+        totalPrice.push(productParsedPrice);
+    }
+
     return (
-        <div className={'cart-checkout-product'}>
-            <h2>Cart Page</h2>
-        </div>
+        <Fragment>
+
+            {cartItems.length > 0
+
+                // if cart is not empty, render cart page
+                ?
+
+                <div className={'cart-checkout-product'}>
+                    <div className="row">
+
+                        {cartItems.map((prod, index) => {
+                            return (
+                                <div className={'item-column'} key={`item-column-${index}`}>
+                                    <div className={'item-card'} key={`item-card-${index}`}>
+                                        <h2>{`${prod['brand']} - ${prod['item']}`}</h2>
+                                        <img
+                                            className={'card-image'}
+                                            src={prod['image']}
+                                            alt={`${prod['brand']} - ${prod['item']}`}
+                                            style={{width: '50%', height: 'auto'}}
+                                            key={`img-${index}`}
+                                        />
+
+                                        <h2>Quantity:</h2>
+                                        <div className={'quantity-container'} key={`quantity-container-${index}`}>
+
+                                            <button
+                                                value={prod['item']}
+                                                name={'add'}
+                                                className={'quantity-button'}
+                                                key={`add-button-${index}`}
+                                                onClick={e => clickQuantity(e)}
+                                            >+
+                                            </button>
+
+                                            <div className={'quantity-value'} key={`quantity-value-${index}`}>
+                                                {prod['quantity']}
+                                            </div>
+
+                                            <button
+                                                value={prod['item']}
+                                                name={'subtract'}
+                                                className={'quantity-button'}
+                                                key={`subtract-button-${index}`}
+                                                onClick={e => clickQuantity(e)}
+                                            >-
+                                            </button>
+                                        </div>
+
+                                        <h2>Price: ${(prod['price'] * prod['quantity']).toFixed(2)}</h2>
+                                    </div>
+                                </div>
+                            )
+                        })}
+
+                        <div className={'card'}>
+                            <p className={'price'}>Total Cost:
+                                ${totalPrice.reduce((acc, currVal) => acc + currVal, 0)}</p>
+
+                            {cartItems.map((prod, index) => {
+                                return (
+                                    <p
+                                        key={`total-price- ${index}`}
+                                        className={'price'}
+                                    >{prod['quantity']} x {prod['brand']} {prod['item']} =
+                                        ${(prod['price'] * prod['quantity']).toFixed(2)}</p>
+                                )
+                            })}
+                        </div>
+
+                        <button className={'buy-button'}>
+                            Buy
+                        </button>
+
+                    </div>
+                </div>
+
+                // if cart is empty, render empty cart page
+                :
+
+                <img
+                    className={'empty-cart-image'}
+                    src={'https://i.ibb.co/PmBcj92/empty-cart.jpg'}
+                    alt={'empty-cart'}
+                />
+            }
+        </Fragment>
     );
 }
 
@@ -145,9 +236,7 @@ const CheckoutPage = () => {
 const ProductPage = ({prodItems, productName, addToCart}) => {
 
     // filter the prodItems to get the clicked product
-    const prod = prodItems.filter(prod => {
-        return prod['item'] === productName
-    })
+    const prod = prodItems.filter(prod => prod['item'] === productName);
 
     return (
         <Fragment>
@@ -163,14 +252,14 @@ const ProductPage = ({prodItems, productName, addToCart}) => {
                         alt={`${prod[0]['brand']} - ${prod[0]['item']}`}
                     />
 
-                    <button value={prod['item']} onClick={(e) => addToCart(e)}>
+                    <button value={prod[0]['item']} onClick={(e) => addToCart(e)}>
                         Add To Cart
                     </button>
 
                     <p
                         className={'price'}
                         style={{fontSize: '35px', color: 'purple'}}
-                    >{`$${prod[0]['details']['price']}`}</p>
+                    >{`$${prod[0]['price']}`}</p>
 
                     <table>
                         <thead>
@@ -199,7 +288,7 @@ const ProductPage = ({prodItems, productName, addToCart}) => {
 }
 
 
-const HomePage = ({prodItems, addToCart}) => {
+const HomePage = ({prodItems}) => {
 
     // shuffle the array using Fisher-Yates algorithm
     const shuffleItems = (arr) => {
@@ -229,22 +318,17 @@ const HomePage = ({prodItems, addToCart}) => {
                                 key={`img-${index}`}
                             />
                             <h2 key={`header-${index}`}>{prod['brand']} - {prod['item']}</h2>
-                            <p key={`price-${index}`} className={'price'}>{`$${prod['details']['price']}`}</p>
+                            <p key={`price-${index}`} className={'price'}>{`$${prod['price']}`}</p>
 
-                            <div key={`visit-${index}`} className={'visit-link'}>
-                                <Link
-                                    key={`link-${index}`}
-                                    to={`/${prod['item'].replace(' ', '_').toLowerCase()}`}
-                                    value={prod['item']}
+                            <Link
+                                className={'link'}
+                                key={`link-${index}`}
+                                to={`/${prod['item'].replace(' ', '_').toLowerCase()}`}
+                                value={prod['item']}
 
-                                >
-                                    Visit Product
-                                </Link>
-                            </div>
-
-                            <button key={`addToCart-${index}`} value={prod['item']} onClick={(e) => addToCart(e)}>
-                                Add To Cart
-                            </button>
+                            >
+                                Visit Product
+                            </Link>
 
                         </div>
                     )
@@ -258,7 +342,7 @@ const RenderSideBar = () => {
 
     // render side bar consists of a dropdown for each product type (laptops, phones) with links towards the specific page.
     //   every dropdown contains every product link to the specific page
-    // if the window width is smaller than 1000px (this goes for mobiles) avoid using drop down and use links for product only
+    // if the window width is smaller than 1100px (this goes for mobiles) avoid using drop down and use links for product only
     return (
         <Fragment>
             <div className={'side-nav'}>
@@ -267,8 +351,8 @@ const RenderSideBar = () => {
                     return (
                         <Fragment key={`fragment-${prodIndex}`}>
 
-                            {/* if window width > 1000 class is the one used for desktop, else class is the one used for mobile*/}
-                            <div className={window.innerWidth > 1000 ? 'dropdown-div' : 'inline-div'}
+                            {/* if window width > 1100 class is the one used for desktop, else class is the one used for mobile*/}
+                            <div className={window.innerWidth > 1100 ? 'dropdown-div' : 'inline-div'}
                                  key={`dropdown-${prodIndex}`}>
                                 <Link key={`link-${prodIndex}`} to={`/${product.toLowerCase()}`}>
                                     {product}
@@ -277,7 +361,7 @@ const RenderSideBar = () => {
 
                             {
                                 // This applies for desktop view
-                                window.innerWidth > 1000 ?
+                                window.innerWidth > 1100 ?
 
                                     <div key={`content-${prodIndex}`} className={'dropdown-content'}>
                                         {Object.keys(products[product]).map((prodType, prodTypeIndex) => {
@@ -292,7 +376,7 @@ const RenderSideBar = () => {
 
                                     :
 
-                                    // do not render div with dropdown-content class in case the width is smaller than 1000 px
+                                    // do not render div with dropdown-content class in case the width is smaller than 1100 px
                                     null}
                         </Fragment>
                     )
@@ -321,7 +405,8 @@ const App = () => {
                                 'item': item,
                                 'image': products[prod][brand][item]['image'],
                                 'details': products[prod][brand][item]['details'],
-                                'quantity': products[prod][brand][item]['quantity']
+                                'price': products[prod][brand][item]['price'],
+                                'quantity': products[prod][brand][item]['quantity'],
                             })
                         }
                     }
@@ -336,52 +421,91 @@ const App = () => {
     const phones = prods.filter(key => key['product'] === 'Phones')
     const laptops = prods.filter(key => key['product'] === 'Laptops')
 
+    // the initial items
     const [prodItems] = useState(prods);
 
     const [cartItems, setCartItems] = useState([]);
+    const [cartCounter, setCartCounter] = useState(0);
+
+
+    const handleQuantity = e => {
+
+        const {name, value} = e.target;
+
+        for (let i = 0; i < cartItems.length; i++) {
+            if (cartItems[i]['item'] === value) {
+
+                // if event.target.name === add, then increment in cart
+                //   else decrement from cart
+                if (name === 'add') {
+                    cartItems[i]['quantity'] += 1;
+                    setCartCounter(cartCounter + 1);
+                } else if (name === 'subtract') {
+                    cartItems[i]['quantity'] -= 1;
+                    setCartCounter(cartCounter - 1);
+                }
+            }
+
+            if (cartItems[i]['quantity'] === 0) {
+                const newItems = cartItems.filter(item => item['quantity'] !== 0);
+
+                setCartItems(newItems);
+            }
+        }
+
+    }
 
 
     // Add item to cartItems
-    const handleAddToCart = (e) => {
+    const handleAddToCart = e => {
 
-        const clickedItem = prodItems.filter(product => {
-            return product['item'] === e.target.value;
-        })
+        const clickedItem = prodItems.filter(product => product['item'] === e.target.value);
 
+        // if the item is already in cart increment quantity and cart counter
+        if (cartItems.some(prod => prod['item'] === clickedItem[0]['item'])) {
+            for (let i = 0; i < cartItems.length; i++) {
 
-        // TODO: This logic is severely broken and needed to be dealt as soon as possible
-        // if (cartItems.length > 0) {
-        //     for (let i = 0; i < cartItems.length; i++) {
-        //         if (cartItems[i][0]['item'] === clickedItem[0]['item'] && cartItems[i][0]['quantity'] > 0) {
-        //             cartItems[i][0]['quantity'] += 1;
-        //         } else {
-        //             clickedItem[0]['quantity'] = 1;
-        //             setCartItems([...cartItems, clickedItem]);
-        //         }
-        //     }
-        // } else {
-        //     clickedItem[0]['quantity'] = 1;
-        //     setCartItems([...cartItems, clickedItem]);
-        // }
+                if (cartItems[i]['item'] === clickedItem[0]['item']) {
+                    clickedItem[0]['quantity'] += 1;
+                    setCartCounter(cartCounter + 1)
+                }
+            }
+        }
+
+        // if item is not in cart increment quantity and add product to cart items
+        else {
+            clickedItem[0]['quantity'] += 1;
+
+            const item = clickedItem[0];
+            setCartItems([...cartItems, item])
+            setCartCounter(cartCounter + 1)
+        }
     };
+
 
     return (
         <Router>
-            <NavigationBar/>
+            <NavigationBar itemsInCart={cartCounter}/>
             <Switch>
                 <Route
                     path={'/'}
                     exact
-                    render={(props) => <HomePage prodItems={prodItems} addToCart={handleAddToCart}/>}
+                    render={(props) => <HomePage prodItems={prodItems}/>}
                 />
 
                 <Route
                     path={'/cart'}
-                    render={(props) => <CartPage cartItems={cartItems}/>}
+                    render={(props) => <CartPage
+                        cartItems={cartItems}
+                        clickQuantity={handleQuantity}
+                    />}
                 />
 
                 <Route path={'/checkout'} component={CheckoutPage}/>
                 <Route path={'/laptops'} component={LaptopsPage}/>
+
+                {/* the following segment of routes is reserved for desktop version. coming soon*/}
+                {/* hard coded so i can see them directly as a reminder*/}
                 <Route path={'/phones'} component={PhonesPage}/>
                 <Route path={'/acer'} component={AcerPage}/>
                 <Route path={'/hp'} component={HpPage}/>
@@ -390,11 +514,12 @@ const App = () => {
                 <Route path={'/cat'} component={CatPage}/>
                 <Route path={'/xiaomi'} component={XiaomiPage}/>
 
-                {/* This mapping aplies to every single product, properties passed through render prop are the 'prodItems',
+                {/* This mapping applies to every single product, properties passed through render prop are the 'prodItems',
                         the 'name of the product item' and the 'add to cart' functionality. mainly to sort the item in the ProductPage component*/}
                 {prodItems.map((prod, index) => {
                     return (
                         <Route
+                            key={index}
                             path={`/${prod['item'].replace(' ', '_').toLowerCase()}`}
                             render={(props) => <ProductPage
                                 prodItems={prodItems}
