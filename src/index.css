@@ -3,6 +3,7 @@ body {
     padding: 10px;
     background: white;
     box-sizing: border-box;
+    user-select: none;
 }
 
 /* Style the top navigation bar (this is the main navigation list)*/
@@ -102,8 +103,14 @@ body {
 }
 
 
+/**/
+/**/
+/**/
+/**/
+
+
 /* Applies for mobile view*/
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
 
     /* Navigation bar*/
     .nav-list {
@@ -123,6 +130,10 @@ body {
     }
 
     /*End of Navigation bar*/
+    /**/
+    /**/
+    /**/
+    /**/
     /* Side Bar*/
     .side-nav {
         position: fixed;
@@ -142,6 +153,10 @@ body {
     }
 
     /*End of Side Bar*/
+    /**/
+    /**/
+    /**/
+    /**/
     /* Visual part between Nav Bar and Side Bar*/
     .main {
         margin-top: 40px;
@@ -156,16 +171,22 @@ body {
         text-align: center;
     }
 
+
     /* End of  Visual part between Nav Bar and Side Bar*/
+    /**/
+    /**/
+    /**/
+    /**/
     /* Cards for home Page */
     .card {
         display: block;
         width: 100%;
         margin: 35px auto 35px auto;
-        box-shadow: 0px 0px 15px 4px rgba(230, 161, 23, 1);
+        box-shadow: 0 0 15px 4px rgba(230, 161, 23, 1);
         text-align: center;
         font-family: Arial, Helvetica, sans-serif;
     }
+
 
     /* The price */
     .card .price {
@@ -173,39 +194,47 @@ body {
         font-size: 22px;
     }
 
-    /* The visit product link*/
-    .card .visit-link {
-        border: none;
-        outline: 0;
-        padding: 12px;
-        color: white;
-        background-color: black;
-        text-align: center;
-        cursor: pointer;
-        margin: auto;
-        font-size: 18px;
-        display: inline-block;
-        user-select: none;
-    }
 
-
-    /* Add to cart button*/
+    /* Add to cart button */
     .card button {
         border: none;
         outline: 0;
         padding: 12px;
         color: white;
-        background-color: blueviolet;
+        background-color: darkred;
         text-align: center;
         cursor: pointer;
         width: 100%;
         font-size: 18px;
+        margin-top: 15px;
     }
 
-    /*Add to cart button on hover*/
-    .card button:active {
+
+    /* Visit Product link */
+    .card a {
+        float: inherit;
+        border: none;
+        outline: 0;
+        padding: 12px 12px 12px 12px;
+        color: white;
+        background-color: blueviolet;
+        text-align: center;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+
+    /* Visit product link on click */
+    .card a:active {
         background-color: darkmagenta;
     }
+
+
+    /* Add to Cart button on click */
+    .card button:active {
+        background-color: darkgreen;
+    }
+
 
     .card-image {
         width: 100%;
@@ -247,4 +276,97 @@ body {
 
 
     /*  End of Product Table  */
+    /**/
+    /**/
+    /**/
+    /**/
+    /*  Cart Page  */
+    .item-column {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .item-card {
+        box-shadow: 0 0 15px 4px rgba(182, 46, 194, 1);
+        padding: 16px;
+        text-align: center;
+    }
+
+
+    .row {
+        margin: 0 -5px;
+    }
+
+
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+
+    .quantity-container {
+        display: inline-block;
+        width: 130px;
+    }
+
+
+    /* the quantity circle value */
+    .quantity-value {
+        display: inline-block;
+        border-radius: 50%;
+        width: 30%;
+        height: 10%;
+        padding: 8px;
+        border: 2px solid blueviolet;
+        color: blueviolet;
+        text-align: center;
+        font-size: 32px;
+    }
+
+
+    /* The plus and minus buttons */
+    .quantity-button {
+        background-color: lightseagreen;
+        color: darkmagenta;
+        border: none;
+        padding: 8px 40px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 30px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+
+    /* Buy button */
+    .buy-button {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: darkred;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+        margin-top: 15px;
+    }
+
+
+    /* Buy Button on click */
+    .buy-button:active {
+        background-color: darkgreen;
+    }
+
+
+    /* Empty cart image */
+    .empty-cart-image {
+        display: block;
+        width: 100%;
+        margin: 35px auto 35px auto;
+        top: 20%;
+        height: auto;
+    }
 }
