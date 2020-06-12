@@ -1,3 +1,4 @@
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     padding: 10px;
@@ -5,6 +6,9 @@ body {
     box-sizing: border-box;
     user-select: none;
 }
+
+/*!* For Desktop Version *!*/
+
 
 /* Style the top navigation bar (this is the main navigation list)*/
 .nav-list {
@@ -32,75 +36,75 @@ body {
 }
 
 /* Change color on hover */
-.nav-list li:hover, a:hover {
-    background-color: mediumpurple;
-    color: white;
-    cursor: pointer;
-}
+/*.nav-list li:hover, a:hover {*/
+/*    background-color: mediumpurple;*/
+/*    color: white;*/
+/*    cursor: pointer;*/
+/*}*/
 
 
 /* Side nav is the actual navigation bar between products*/
-.side-nav {
-    height: 100%;
-    width: 10%;
-    position: fixed;
-    top: 67px;
-    left: 0;
-    background-color: darkslateblue;
-    overflow-x: hidden;
-    padding-top: 2.5%;
-}
+/*.side-nav {*/
+/*    height: 100%;*/
+/*    width: 10%;*/
+/*    position: fixed;*/
+/*    top: 67px;*/
+/*    left: 0;*/
+/*    background-color: darkslateblue;*/
+/*    overflow-x: hidden;*/
+/*    padding-top: 2.5%;*/
+/*}*/
 
 
-.side-nav a, .dropdown-div a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 150%;
-    font-weight: bold;
-    color: yellow;
-    display: block;
-    background: none;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    outline: none;
-}
+/*.side-nav a, .dropdown-div a {*/
+/*    padding: 6px 8px 6px 16px;*/
+/*    text-decoration: none;*/
+/*    font-size: 150%;*/
+/*    font-weight: bold;*/
+/*    color: yellow;*/
+/*    display: block;*/
+/*    background: none;*/
+/*    width: 100%;*/
+/*    text-align: left;*/
+/*    cursor: pointer;*/
+/*    outline: none;*/
+/*}*/
 
 
-.dropdown-content a:hover {
-    color: red;
-}
+/*.dropdown-content a:hover {*/
+/*    color: red;*/
+/*}*/
 
 
-/* hide the product items */
-.dropdown-content {
-    display: none;
-    padding-left: 20px;
-}
+/*!* hide the product items *!*/
+/*.dropdown-content {*/
+/*    display: none;*/
+/*    padding-left: 20px;*/
+/*}*/
 
 
-/* reveal the product items when hover over them*/
-.dropdown-content:hover {
-    display: block;
-}
+/*!* reveal the product items when hover over them*!*/
+/*.dropdown-content:hover {*/
+/*    display: block;*/
+/*}*/
 
-/* reveal the product items when hover over them*/
-.dropdown-div:hover + .dropdown-content {
-    display: block;
-}
-
-
-/* used to display all products on the right side of the navigation bar*/
-.main {
-    margin-top: 60px;
-    margin-left: 10%; /* Same as the width of the side-nav */
-}
+/*!* reveal the product items when hover over them*!*/
+/*.dropdown-div:hover + .dropdown-content {*/
+/*    display: block;*/
+/*}*/
 
 
-/* used for checkout, cart, home, individual product pages*/
-.cart-checkout-product {
-    margin-top: 60px;
-}
+/*!* used to display all products on the right side of the navigation bar*!*/
+/*.main {*/
+/*    margin-top: 60px;*/
+/*    margin-left: 10%; !* Same as the width of the side-nav *!*/
+/*}*/
+
+
+/*!* used for checkout, cart, home, individual product pages*!*/
+/*.cart-checkout-product {*/
+/*    margin-top: 60px;*/
+/*}*/
 
 
 /**/
@@ -112,13 +116,52 @@ body {
 /* Applies for mobile view*/
 @media (max-width: 1100px) {
 
+
+    /* this is used to remove that light blue highlight for buttons on mobile versions*/
+    button, a {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    /* Page Title */
+    h1 {
+        margin: 40px auto 35px auto;
+        color: purple;
+        text-align: center;
+        background-color: navajowhite;
+        box-shadow: 0 0 15px 4px rgba(44, 171, 12, 1);
+
+    }
+
+
+    /* Scroll To Top Button*/
+    #scroll-to-top {
+        position: fixed;
+        bottom: 13%;
+        right: 1.5%;
+        z-index: 99;
+        border: none;
+        outline: none;
+        background-color: yellow;
+        color: indigo;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 20px;
+        font-size: 18px;
+        opacity: 0.5;
+    }
+
+
+    /**/
+    /**/
+    /**/
+    /**/
     /* Navigation bar*/
     .nav-list {
         height: 40px;
     }
 
 
-    /* Style the topnav links */
+    /* Style the Navigation Bar links */
     .nav-list li, a {
         float: left;
         display: block;
@@ -127,6 +170,37 @@ body {
         padding: 5px 5px 7px;
         text-decoration: none;
         list-style-type: none;
+    }
+
+    /* Navigation Bar Back Button behaves like a link*/
+    .nav-list button {
+        font-size: 20px;
+        font-weight: bold;
+        background: none !important;
+        border: none;
+        outline: none;
+        font-family: arial, sans-serif;
+        float: left;
+        display: block;
+        color: lightseagreen;
+        text-align: center;
+        padding: 2px 5px 7px;
+        cursor: pointer;
+    }
+
+    /* Nav List links when clicked */
+    .nav-list a:active {
+        background-color: cornflowerblue;
+    }
+
+    /* Nav List list item which contains the button */
+    #go-back-button-item:active {
+        background-color: yellowgreen;
+    }
+
+    /* Nav List go back button when clicked*/
+    #go-back-button-item button:active {
+        color: darkred;
     }
 
     /*End of Navigation bar*/
@@ -140,16 +214,26 @@ body {
         left: 0;
         bottom: 0;
         width: 100%;
-        top: 93%;
-        color: white;
-        background-color: darkslateblue;
+        height: 40px;
+        background-color: darkorange;
         text-align: left;
     }
 
 
     .side-nav .inline-div {
+        font-size: 17px;
+        padding: 6px 0 6px 6px;
+        font-weight: bold;
         display: inline-block;
-        font-size: 10px;
+    }
+
+    /* the links from the side-nav*/
+    .inline-div a {
+        color: indigo;
+    }
+
+    .inline-div:active {
+        background-color: cornflowerblue;
     }
 
     /*End of Side Bar*/
@@ -182,7 +266,7 @@ body {
         display: block;
         width: 100%;
         margin: 35px auto 35px auto;
-        box-shadow: 0 0 15px 4px rgba(230, 161, 23, 1);
+        box-shadow: 0 0 15px 4px rgba(30, 148, 212, 1);
         text-align: center;
         font-family: Arial, Helvetica, sans-serif;
     }
@@ -198,6 +282,7 @@ body {
     /* Add to cart button */
     .card button {
         border: none;
+        outline: none;
         outline: 0;
         padding: 12px;
         color: white;
@@ -214,6 +299,7 @@ body {
     .card a {
         float: inherit;
         border: none;
+        outline: none;
         outline: 0;
         padding: 12px 12px 12px 12px;
         color: white;
@@ -226,7 +312,7 @@ body {
 
     /* Visit product link on click */
     .card a:active {
-        background-color: darkmagenta;
+        background-color: darkorange;
     }
 
 
@@ -294,12 +380,12 @@ body {
     }
 
 
-    .row {
+    .item-row {
         margin: 0 -5px;
     }
 
 
-    .row:after {
+    .item-row:after {
         content: "";
         display: table;
         clear: both;
@@ -331,6 +417,7 @@ body {
         background-color: lightseagreen;
         color: darkmagenta;
         border: none;
+        outline: none;
         padding: 8px 40px;
         text-align: center;
         text-decoration: none;
@@ -339,14 +426,19 @@ body {
         cursor: pointer;
     }
 
+    .quantity-button:active {
+        background-color: lightsalmon;
+    }
+
 
     /* Buy button */
     .buy-button {
         border: none;
+        outline: none;
         outline: 0;
         padding: 12px;
         color: white;
-        background-color: darkred;
+        background-color: indigo;
         text-align: center;
         cursor: pointer;
         width: 100%;
@@ -368,5 +460,41 @@ body {
         margin: 35px auto 35px auto;
         top: 20%;
         height: auto;
+    }
+
+    /* End of Cart Page */
+    /**/
+    /**/
+    /**/
+    /**/
+    /* Start of Checkout Page */
+
+    .checkout-col {
+        margin-bottom: 20px;
+    }
+
+    /* the container for checkout*/
+    .checkout-container {
+        background-color: #f2f2f2;
+        padding: 5px 20px 15px 20px;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+    }
+
+    /* name of the product*/
+    .checkout-container p {
+        text-align: left;
+        font-size: 20px;
+    }
+
+    /* price of the product*/
+    .checkout-container span.price {
+        float: right;
+        color: grey;
+        font-size: 20px;
+    }
+
+    hr {
+        border: 1px solid lightgrey;
     }
 }

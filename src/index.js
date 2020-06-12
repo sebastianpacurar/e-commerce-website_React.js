@@ -1,16 +1,22 @@
 import React, {Fragment, useState} from 'react';
 import ReactDOM from 'react-dom';
 
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
-
+import {BrowserRouter as Router, Link, Route, Switch, useHistory} from 'react-router-dom';
 import {products} from "./utils/products";
-
 import './index.css';
 
+
 const NavigationBar = ({itemsInCart}) => {
+
+    const history = useHistory();
+
     return (
         <nav>
             <ul className={'nav-list'}>
+
+                <li id={'go-back-button-item'} style={{borderRight: 'solid indigo 2px'}}>
+                    <button onClick={() => history.goBack()}> Go Back</button>
+                </li>
 
                 <Link to={'/'}>
                     <li>Home</li>
@@ -20,8 +26,9 @@ const NavigationBar = ({itemsInCart}) => {
                     <li>Cart ({itemsInCart})</li>
                 </Link>
 
-                <Link to={'/checkout'}>
-                    <li>Checkout</li>
+                {/* disable link to checkout if there are no items in cart*/}
+                <Link to={'/checkout'} style={itemsInCart < 1 ? {pointerEvents: 'none'} : null}>
+                    <li style={itemsInCart < 1 ? {color: 'grey'} : null}>Checkout</li>
                 </Link>
 
             </ul>
@@ -29,119 +36,21 @@ const NavigationBar = ({itemsInCart}) => {
     );
 }
 
-
-const LaptopsPage = () => {
-    return (
-        <div>
-            <RenderSideBar/>
-            <div className={'main'}>
-                <h2>Laptops Page</h2>
-            </div>
-        </div>
-    );
-}
-
-
-const PhonesPage = () => {
-    return (
-        <div>
-            <div className={'main'}>
-                <h2>Phones Page</h2>
-            </div>
-        </div>
-    );
-}
-
-
-const AcerPage = () => {
-    return (
-        <div>
-            <RenderSideBar/>
-            <div className={'main'}>
-                <h2>Acer Page</h2>
-            </div>
-        </div>
-    );
-}
-
-
-const HpPage = () => {
-    return (
-        <div>
-            <RenderSideBar/>
-            <div className={'main'}>
-                <h2>HP Page</h2>
-            </div>
-        </div>
-    );
-}
-
-
-const DellPage = () => {
-    return (
-        <div>
-            <RenderSideBar/>
-            <div className={'main'}>
-                <h2>Dell Page</h2>
-            </div>
-        </div>
-    );
-}
-
-const IphonePage = () => {
-    return (
-        <div>
-            <RenderSideBar/>
-            <div className={'main'}>
-                <h2>Iphone Page</h2>
-            </div>
-        </div>
-    );
-}
-
-
-const XiaomiPage = () => {
-    return (
-        <div>
-            <RenderSideBar/>
-            <div className={'main'}>
-                <h2>Xiaomi Page</h2>
-            </div>
-        </div>
-    );
-}
-
-const CatPage = () => {
-    return (
-        <div>
-            <RenderSideBar/>
-            <div className={'main'}>
-                <h2>CAT Page</h2>
-            </div>
-        </div>
-    );
-}
-
-
-const CartPage = ({cartItems, clickQuantity}) => {
-
-    const totalPrice = [];
-
-    for (let i = 0; i < cartItems.length; i++) {
-        const productParsedPrice = cartItems[i]['price'] * cartItems[i]['quantity'];
-        totalPrice.push(productParsedPrice);
-    }
+const CartPage = ({cartItems, clickQuantity, totalCost}) => {
 
     return (
         <Fragment>
+
 
             {cartItems.length > 0
 
                 // if cart is not empty, render cart page
                 ?
 
+
                 <div className={'cart-checkout-product'}>
-                    <div className="row">
+                    <h1>Cart Page</h1>
+                    <div className={'item-row'}>
 
                         {cartItems.map((prod, index) => {
                             return (
@@ -189,8 +98,7 @@ const CartPage = ({cartItems, clickQuantity}) => {
                         })}
 
                         <div className={'card'}>
-                            <p className={'price'}>Total Cost:
-                                ${totalPrice.reduce((acc, currVal) => acc + currVal, 0)}</p>
+                            <p className={'price'}>Total Cost: {totalCost}</p>
 
                             {cartItems.map((prod, index) => {
                                 return (
@@ -203,10 +111,15 @@ const CartPage = ({cartItems, clickQuantity}) => {
                             })}
                         </div>
 
-                        <button className={'buy-button'}>
-                            Buy
-                        </button>
+                        <div className={'card'}>
+                            <Link to={'/checkout'}>
+                                Proceed To Checkout
+                            </Link>
+                        </div>
 
+                        <button id={'scroll-to-top'} onClick={() => window.scroll({top: 0, behavior: 'smooth'})}>
+                            Top
+                        </button>
                     </div>
                 </div>
 
@@ -219,21 +132,119 @@ const CartPage = ({cartItems, clickQuantity}) => {
                     alt={'empty-cart'}
                 />
             }
+
+            <div className={'card'} style={{
+                boxShadow: '0px 0px 0px -200px rgba(255,255,255,1)',
+            }}>
+                <Link className={'link'} to={'/'}>
+                    {cartItems.length < 1 ? 'Go Shopping' : 'Continue Shopping'}
+                </Link>
+            </div>
         </Fragment>
     );
 }
 
 
-const CheckoutPage = () => {
+const CheckoutPage = ({cartItems, totalCost}) => {
+
     return (
-        <div className={'cart-checkout-product'}>
-            <h2>Checkout Page</h2>
-        </div>
+        <Fragment>
+            <div className={'cart-checkout-product'}>
+                <h1>Checkout Page</h1>
+
+                <div className={'checkout-col'}>
+                    <div className={'checkout-container'}>
+                        <p>Cart <span className={'price'}><span>Cost</span> </span></p>
+
+                        {cartItems.map((prod, index) => {
+                            return (
+                                <p key={`checkout-item-${index}`}>
+                                    {prod['quantity']} x {prod['item']}
+                                    <span className={'price'}>${(prod['quantity'] * prod['price']).toFixed(2)}</span>
+                                </p>
+                            )
+                        })}
+
+                        <hr/>
+
+                        <p style={{color: 'red'}}
+                        >Total<span
+                            className={'price'} style={{color: 'red'}}
+                        >
+                            ${totalCost}
+                        </span></p>
+
+                    </div>
+                </div>
+
+                <button
+                    className={'buy-button'}
+                    onClick={() => alert("Thank you for visiting my e-com website!\nCreated By Sebastian Pacurar")}
+                >
+                    Buy
+                </button>
+            </div>
+        </Fragment>
     );
 }
 
 
+const ProductsTypePage = ({prodItems, productType}) => {
+
+    // scroll to top of the page in case the scroll is too low on the page
+    if (window.pageYOffset > 800) {
+        window.scrollTo(0, 0);
+    }
+
+    const filteredItems = prodItems.filter(key => key['product'] === productType)
+
+    return (
+        <div>
+            <RenderProductsBar/>
+
+            {/*this consists of cards of products in which every product has a name, photo, price, and Add To Cart button*/}
+            <div className={'main'}>
+                <h1>{productType}</h1>
+
+                {filteredItems.map((prod, index) => {
+                    return (
+                        <div className={'card'} key={index}>
+
+                            <img
+                                className={'card-image'}
+                                src={prod['image']}
+                                alt={`${prod['brand']} - ${prod['item']}`}
+                            />
+                            <h2>{prod['brand']} - {prod['item']}</h2>
+                            <p className={'price'}>{`$${prod['price']}`}</p>
+
+                            <Link
+                                to={`/${prod['item'].replace(' ', '_').toLowerCase()}`}
+                                value={prod['item']}
+
+                            >
+                                Visit Product
+                            </Link>
+
+                        </div>
+                    )
+                })}
+                <button id={'scroll-to-top'} onClick={() => window.scroll({top: 0, behavior: 'smooth'})}>
+                    Top
+                </button>
+            </div>
+        </div>
+    )
+}
+
+
 const ProductPage = ({prodItems, productName, addToCart}) => {
+
+
+    // scroll to top of the page in case the scroll is too low on the page
+    if (window.pageYOffset > 800) {
+        window.scrollTo(0, 0);
+    }
 
     // filter the prodItems to get the clicked product
     const prod = prodItems.filter(prod => prod['item'] === productName);
@@ -290,23 +301,19 @@ const ProductPage = ({prodItems, productName, addToCart}) => {
 
 const HomePage = ({prodItems}) => {
 
-    // shuffle the array using Fisher-Yates algorithm
-    const shuffleItems = (arr) => {
-        for (let i = arr.length - 1; i > 0; i--) {
-            let j = Math.trunc(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]]
-        }
+    // scroll to top of the page in case the scroll is too low on the page
+    if (window.pageYOffset > 800) {
+        window.scrollTo(0, 0);
     }
 
-    shuffleItems(prodItems);
-
-    // TODO - Implemented for mobile only
     return (
-        <div>
-            <RenderSideBar/>
+        <Fragment>
+            <RenderProductsBar/>
 
             {/*this consists of cards of products in which every product has a name, photo, price, and Add To Cart button*/}
             <div className={'main'}>
+                <h1>All products</h1>
+
                 {prodItems.map((prod, index) => {
                     return (
                         <div className={'card'} key={index}>
@@ -315,14 +322,11 @@ const HomePage = ({prodItems}) => {
                                 className={'card-image'}
                                 src={prod['image']}
                                 alt={`${prod['brand']} - ${prod['item']}`}
-                                key={`img-${index}`}
                             />
-                            <h2 key={`header-${index}`}>{prod['brand']} - {prod['item']}</h2>
-                            <p key={`price-${index}`} className={'price'}>{`$${prod['price']}`}</p>
+                            <h2>{prod['brand']} - {prod['item']}</h2>
+                            <p className={'price'}>{`$${prod['price']}`}</p>
 
                             <Link
-                                className={'link'}
-                                key={`link-${index}`}
                                 to={`/${prod['item'].replace(' ', '_').toLowerCase()}`}
                                 value={prod['item']}
 
@@ -333,14 +337,17 @@ const HomePage = ({prodItems}) => {
                         </div>
                     )
                 })}
+                <button id={'scroll-to-top'} onClick={() => window.scroll({top: 0, behavior: 'smooth'})}>
+                    Top
+                </button>
             </div>
-        </div>
+        </Fragment>
     )
 }
 
-const RenderSideBar = () => {
+const RenderProductsBar = () => {
 
-    // render side bar consists of a dropdown for each product type (laptops, phones) with links towards the specific page.
+    // render side bar consists of a dropdown for each product type (laptops, phones, headphones) with links towards the specific page.
     //   every dropdown contains every product link to the specific page
     // if the window width is smaller than 1100px (this goes for mobiles) avoid using drop down and use links for product only
     return (
@@ -389,6 +396,7 @@ const RenderSideBar = () => {
 
 const App = () => {
 
+    const prices = [];
     const prods = [];
 
     // compose a list of every product as a json which contains the product and details about it.
@@ -416,18 +424,15 @@ const App = () => {
     }
 
 
-    // TODO - implemented in the future
-    // make a list for every electronic type
-    const phones = prods.filter(key => key['product'] === 'Phones')
-    const laptops = prods.filter(key => key['product'] === 'Laptops')
-
     // the initial items
     const [prodItems] = useState(prods);
 
     const [cartItems, setCartItems] = useState([]);
     const [cartCounter, setCartCounter] = useState(0);
+    const [totalCost, setTotalCost] = useState(0);
 
 
+    // handle quantity for cart items
     const handleQuantity = e => {
 
         const {name, value} = e.target;
@@ -453,6 +458,12 @@ const App = () => {
             }
         }
 
+        // calculate total price
+        for (let i = 0; i < cartItems.length; i++) {
+            prices.push((cartItems[i]['price'] * cartItems[i]['quantity']).toFixed(2));
+
+        }
+        setTotalCost(prices.reduce((acc, currVal) => acc + Number(currVal), 0));
     }
 
 
@@ -480,6 +491,17 @@ const App = () => {
             setCartItems([...cartItems, item])
             setCartCounter(cartCounter + 1)
         }
+
+        // calculate total price
+        if (cartItems.length < 1) {
+            prices.push(clickedItem[0]['price']);
+        } else {
+            for (let i = 0; i < cartItems.length; i++) {
+                prices.push((cartItems[i]['price'] * cartItems[i]['quantity']).toFixed(2));
+
+            }
+        }
+        setTotalCost(prices.reduce((acc, currVal) => acc + Number(currVal), 0));
     };
 
 
@@ -490,29 +512,44 @@ const App = () => {
                 <Route
                     path={'/'}
                     exact
-                    render={(props) => <HomePage prodItems={prodItems}/>}
+                    render={(props) => <HomePage {...props} prodItems={prodItems}/>}
                 />
 
                 <Route
                     path={'/cart'}
                     render={(props) => <CartPage
+                        {...props}
                         cartItems={cartItems}
+                        totalCost={totalCost}
                         clickQuantity={handleQuantity}
                     />}
                 />
 
-                <Route path={'/checkout'} component={CheckoutPage}/>
-                <Route path={'/laptops'} component={LaptopsPage}/>
+                <Route
+                    path={'/checkout'}
+                    render={(props) => <CheckoutPage
+                        {...props}
+                        cartItems={cartItems}
+                        totalCost={totalCost}
+                    />}
+                />
 
-                {/* the following segment of routes is reserved for desktop version. coming soon*/}
-                {/* hard coded so i can see them directly as a reminder*/}
-                <Route path={'/phones'} component={PhonesPage}/>
-                <Route path={'/acer'} component={AcerPage}/>
-                <Route path={'/hp'} component={HpPage}/>
-                <Route path={'/dell'} component={DellPage}/>
-                <Route path={'/iphone'} component={IphonePage}/>
-                <Route path={'/cat'} component={CatPage}/>
-                <Route path={'/xiaomi'} component={XiaomiPage}/>
+
+                {/* The following segment refers to every product type, such as laptops, phones, etc*/}
+                {prodItems.map((prod, index) => {
+                    return (
+                        <Route
+                            key={index}
+                            path={`/${prod['product'].toLowerCase()}`}
+                            render={(props) => <ProductsTypePage
+                                {...props}
+                                prodItems={prodItems}
+                                productType={prod['product']}
+                                addToCart={handleAddToCart}
+                            />}
+                        />
+                    );
+                })}
 
                 {/* This mapping applies to every single product, properties passed through render prop are the 'prodItems',
                         the 'name of the product item' and the 'add to cart' functionality. mainly to sort the item in the ProductPage component*/}
@@ -522,6 +559,7 @@ const App = () => {
                             key={index}
                             path={`/${prod['item'].replace(' ', '_').toLowerCase()}`}
                             render={(props) => <ProductPage
+                                props={props}
                                 prodItems={prodItems}
                                 productName={prod['item']}
                                 addToCart={handleAddToCart}
