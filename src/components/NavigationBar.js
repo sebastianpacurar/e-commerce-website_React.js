@@ -1,8 +1,10 @@
 import React from "react";
 import {Link, useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
 
-const NavigationBar = ({itemsInCart}) => {
+const NavigationBar = () => {
 
+    const itemCounter = useSelector(state => state.cartIcon)
     const history = useHistory();
 
     return (
@@ -18,12 +20,12 @@ const NavigationBar = ({itemsInCart}) => {
                 </Link>
 
                 <Link to={'/cart'}>
-                    <li>Cart ({itemsInCart})</li>
+                    <li>Cart ({itemCounter})</li>
                 </Link>
 
                 {/* disable link to checkout if there are no items in cart*/}
-                <Link to={'/checkout'} style={itemsInCart < 1 ? {pointerEvents: 'none'} : null}>
-                    <li style={itemsInCart < 1 ? {color: 'grey'} : null}>Checkout</li>
+                <Link to={'/checkout'} style={itemCounter < 1 ? {pointerEvents: 'none'} : null}>
+                    <li style={itemCounter < 1 ? {color: 'grey'} : null}>Checkout</li>
                 </Link>
 
             </ul>

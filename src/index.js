@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
+// router related
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import {products} from "./utils/products";
 
+// redux reated
+import {Provider, useSelector, useDispatch} from 'react-redux';
+import {decrement, increment, myStore} from "./redux";
+
+// components
 import NavigationBar from "./components/NavigationBar";
 import HomePage from "./components/HomePage";
 import CartPage from "./components/CartPage";
@@ -11,10 +16,16 @@ import CheckoutPage from "./components/CheckoutPage";
 import ProductsTypePage from "./components/ProductsTypePage";
 import ProductPage from "./components/ProductPage";
 
+// products json object
+import {products} from "./utils/products";
+
 import './index.css';
 
 
 const App = () => {
+
+    const cartCounter = useSelector(state => state.cartIcon)
+    const dispatch = useDispatch();
 
     const prods = [];
 
@@ -46,8 +57,8 @@ const App = () => {
     // the initial items
     const [prodItems] = useState(prods);
 
+    // cart items
     const [cartItems, setCartItems] = useState([]);
-    const [cartCounter, setCartCounter] = useState(0);
 
 
     // handle quantity for cart items
@@ -62,10 +73,10 @@ const App = () => {
                 //   else decrement from cart
                 if (name === 'add') {
                     cartItems[i]['quantity'] += 1;
-                    setCartCounter(cartCounter + 1);
+                    dispatch(increment());
                 } else if (name === 'subtract') {
                     cartItems[i]['quantity'] -= 1;
-                    setCartCounter(cartCounter - 1);
+                    dispatch(decrement());
                 }
             }
 
@@ -89,7 +100,7 @@ const App = () => {
 
                 if (cartItems[i]['item'] === clickedItem[0]['item']) {
                     clickedItem[0]['quantity'] += 1;
-                    setCartCounter(cartCounter + 1)
+                    dispatch(increment())
                 }
             }
         }
@@ -100,7 +111,7 @@ const App = () => {
 
             const item = clickedItem[0];
             setCartItems([...cartItems, item])
-            setCartCounter(cartCounter + 1)
+            dispatch(increment());
         }
     };
 
@@ -173,6 +184,9 @@ const App = () => {
 
 
 ReactDOM.render(
-    <App/>,
+    <Provider store={myStore}>
+        <App/>
+    </Provider>,
+
     document.getElementById('root'),
 );
