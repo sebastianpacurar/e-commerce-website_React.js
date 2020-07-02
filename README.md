@@ -1,4 +1,4 @@
-##My personal example of an E-Commerce website using React.js, Express.js and MongDB
+## My personal example of an E-Commerce website using React.js, Express.js and MongDB
 
 
 
