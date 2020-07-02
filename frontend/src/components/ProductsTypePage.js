@@ -13,7 +13,7 @@ const ProductsTypePage = ({prodItems, productType}) => {
 
     return (
         <div>
-            <RenderProductsBar/>
+            <RenderProductsBar products={prodItems}/>
 
             {/*this consists of cards of products in which every product has a name, photo, price, and Add To Cart button*/}
             <div className={'main'}>

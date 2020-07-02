@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 
 // router related
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-// redux reated
+// redux related
 import {Provider, useSelector, useDispatch} from 'react-redux';
 import {decrement, increment, myStore} from "./redux";
 
@@ -16,46 +16,33 @@ import CheckoutPage from "./components/CheckoutPage";
 import ProductsTypePage from "./components/ProductsTypePage";
 import ProductPage from "./components/ProductPage";
 
-// products json object
-import {products} from "./utils/products";
-
 import './index.css';
 
 
 const App = () => {
 
+    // async function used to grab the products from the API
+    const loadData = async () => {
+        const response = await fetch('http://localhost:3001');
+
+        const data = await response.json();
+        console.log(data);
+        return data;
+    }
+
+    useEffect(() => {
+        loadData()
+            .then(res => setProdItems(res))
+            .catch(rej => console.log({message: rej}));
+    }, []);
+
+
     const cartCounter = useSelector(state => state.cartIcon)
     const dispatch = useDispatch();
 
-    const prods = [];
-
-    // compose a list of every product as a json which contains the product and details about it.
-    //   this is needed to render the homepage with specific products
-    for (let prod in products) {
-        if (products.hasOwnProperty(prod)) {
-            for (let brand in products[prod]) {
-                if (products[prod].hasOwnProperty(brand)) {
-                    for (let item in products[prod][brand]) {
-                        if (products[prod][brand].hasOwnProperty(item)) {
-                            prods.push({
-                                'product': prod,
-                                'brand': brand,
-                                'item': item,
-                                'image': products[prod][brand][item]['image'],
-                                'details': products[prod][brand][item]['details'],
-                                'price': products[prod][brand][item]['price'],
-                                'quantity': products[prod][brand][item]['quantity'],
-                            })
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 
     // the initial items
-    const [prodItems] = useState(prods);
+    const [prodItems, setProdItems] = useState([]);
 
     // cart items
     const [cartItems, setCartItems] = useState([]);

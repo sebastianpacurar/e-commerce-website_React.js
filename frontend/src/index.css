@@ -112,9 +112,9 @@ body {
 /**/
 /**/
 
-
+/*TODO Since only mobile view is supported, I modified the value of pixels from 1100 to 11000*/
 /* Applies for mobile view*/
-@media (max-width: 1100px) {
+@media (max-width: 11000px) {
 
 
     /* this is used to remove that light blue highlight for buttons on mobile versions*/

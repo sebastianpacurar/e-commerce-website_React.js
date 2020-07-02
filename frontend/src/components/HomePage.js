@@ -21,7 +21,7 @@ const HomePage = ({prodItems}) => {
 
     return (
         <Fragment>
-            <RenderProductsBar/>
+            <RenderProductsBar products={prodItems}/>
 
             {/*this consists of cards of products in which every product has a name, photo, price, and Add To Cart button*/}
             <div className={'main'}>
