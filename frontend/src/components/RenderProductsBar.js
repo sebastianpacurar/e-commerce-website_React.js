@@ -3,8 +3,8 @@ import {Link} from "react-router-dom";
 
 const RenderProductsBar = ({products}) => {
 
-    // obtain a list of every product type
-    const productTypes = [...new Set(products.map(item => (item['product'])))];
+    // obtain a list of every product type, and sort the items alphabetically
+    const sortedProductTypes = [...new Set(products.map(item => (item['product'])))].sort((a,b) => a.localeCompare(b));
 
     // render side bar consists of a dropdown for each product type (laptops, phones, headphones) with links towards the specific page.
     //   every dropdown contains every product link to the specific page
@@ -13,7 +13,7 @@ const RenderProductsBar = ({products}) => {
         <Fragment>
             <div className={'side-nav'}>
 
-                {productTypes.map((product, prodIndex) => {
+                {sortedProductTypes.map((product, prodIndex) => {
                     return (
                         <Fragment key={`fragment-${prodIndex}`}>
 

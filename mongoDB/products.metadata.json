@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"ecomWebsiteDB.products"}],"uuid":"beeffbb7850b4dc0bf36339ed1d8e037"}
