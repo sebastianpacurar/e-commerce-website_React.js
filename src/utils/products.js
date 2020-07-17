@@ -5,7 +5,7 @@ export const products = {
                 'image': 'https://i.ibb.co/DWxjXr4/acer-aspire-7.jpg',
                 'details': {
                     'Brand name': 'Acer',
-                    'Series': 'Acer Aspire',
+                    'Series': 'Aspire',
                     'Item model number': 'A715-72G-71CT',
                     'Display': '15. 6" Full HD (1920 x 1080) widescreen LED-backlit IPS',
                     'Color': 'GTX 1050Ti graphics',
@@ -13,7 +13,7 @@ export const products = {
                     'Memory': '16GB DDR4 2400MHz',
                     'SSD': '512GB PCIe NVMe',
                     'OS': 'Windows 10',
-                    'Eireless type': '802.11ac',
+                    'Wireless type': '802.11ac',
                     'Product dimensions': '10.35 x 15.02 x 0.94 inches',
                     'Graphics coprocessor': 'NVIDIA GeForce GTX 1050 Ti',
                     'Chipset brand': 'NVIDIA',
@@ -33,7 +33,7 @@ export const products = {
                 'image': 'https://i.ibb.co/tBj7yDb/hp-pavilion.jpg',
                 'details': {
                     'Brand name': 'HP',
-                    'Series': 'HP Pavilion',
+                    'Series': 'Pavilion',
                     'Item model number': '14M-DH1003DX',
                     'Display': '13.3-inch diagonal FHD IPS BrightView',
                     'Processor': 'Intel Core i5-9600K 2 40 GHz',
@@ -59,7 +59,7 @@ export const products = {
                 'image': 'https://i.ibb.co/Zc05K3P/dell-latitude.jpg',
                 'details': {
                     'Brand name': 'Dell',
-                    'Beries': 'Dell Latitude',
+                    'Series': 'Latitude',
                     'Display': '14-inch (1366x768) widescreen IPS',
                     'Processor': 'Intel Core i5-6300U 2 40 GHz',
                     'Memory': '8 GB DDR4 2133 MHz',
