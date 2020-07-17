@@ -44,7 +44,7 @@ const CartPage = ({cartItems, clickQuantity}) => {
                                                 name={'add'}
                                                 className={'quantity-button'}
                                                 key={`add-button-${index}`}
-                                                onClick={e => clickQuantity(e)}
+                                                onClick={clickQuantity}
                                             >+
                                             </button>
 
@@ -57,7 +57,7 @@ const CartPage = ({cartItems, clickQuantity}) => {
                                                 name={'subtract'}
                                                 className={'quantity-button'}
                                                 key={`subtract-button-${index}`}
-                                                onClick={e => clickQuantity(e)}
+                                                onClick={clickQuantity}
                                             >-
                                             </button>
                                         </div>

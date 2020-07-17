@@ -4,11 +4,9 @@ import {Link} from "react-router-dom";
 const RenderProductsBar = ({products}) => {
 
     // obtain a list of every product type, and sort the items alphabetically
-    const sortedProductTypes = [...new Set(products.map(item => (item['product'])))].sort((a,b) => a.localeCompare(b));
+    const sortedProductTypes = [...new Set(products.map(item => (item['product'])))].sort((a, b) => a.localeCompare(b));
 
-    // render side bar consists of a dropdown for each product type (laptops, phones, headphones) with links towards the specific page.
-    //   every dropdown contains every product link to the specific page
-    // if the window width is smaller than 1100px (this goes for mobiles) avoid using drop down and use links for product only
+    // products bar is composed of links to ProductsType Pages such as Headphones, Laptops and Phones
     return (
         <Fragment>
             <div className={'side-nav'}>
@@ -17,7 +15,6 @@ const RenderProductsBar = ({products}) => {
                     return (
                         <Fragment key={`fragment-${prodIndex}`}>
 
-                            {/* if window width > 1100 class is the one used for desktop, else class is the one used for mobile*/}
                             <div className={'inline-div'}
                                  key={`dropdown-${prodIndex}`}>
 
@@ -25,27 +22,6 @@ const RenderProductsBar = ({products}) => {
                                     {product}
                                 </Link>
                             </div>
-
-                            {/*TODO Will fix when implementing desktop UI*/}
-                            {/*{*/}
-                            {/*    // This applies for desktop view*/}
-                            {/*    window.innerWidth > 1100 ?*/}
-
-                            {/*        <div key={`content-${prodIndex}`} className={'dropdown-content'}>*/}
-                            {/*            {prodItems.map((prodType, prodTypeIndex) => {*/}
-                            {/*                return (*/}
-                            {/*                    <Link key={prodTypeIndex} to={prodType.toLowerCase()}>*/}
-                            {/*                        {prodType}*/}
-                            {/*                    </Link>*/}
-                            {/*                );*/}
-
-                            {/*            })}*/}
-                            {/*        </div>*/}
-
-                            {/*        :*/}
-
-                            {/*        // do not render div with dropdown-content class in case the width is smaller than 1100 px*/}
-                            {/*        null}*/}
                         </Fragment>
                     )
                 })}

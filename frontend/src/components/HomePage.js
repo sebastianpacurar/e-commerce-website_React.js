@@ -59,5 +59,5 @@ const HomePage = ({prodItems}) => {
 }
 
 // using React.memo HOC to prevent the items to reshuffle if clicking home page link more than once in a row
-// check the length of products. this way is equivalent to shouldComponentUpdate related to classes
+//   check the length of products. this way is equivalent to shouldComponentUpdate related to classes
 export default memo(HomePage, (prevProps, nextProps) => nextProps.prodItems.length === prevProps.prodItems.length);
