@@ -24,7 +24,7 @@ const ProductPage = ({prodItems, productName, addToCart}) => {
                         alt={`${prod[0]['brand']} - ${prod[0]['item']}`}
                     />
 
-                    <button value={prod[0]['item']} onClick={(e) => addToCart(e)}>
+                    <button value={prod[0]['item']} onClick={addToCart}>
                         Add To Cart
                     </button>
 

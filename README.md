@@ -1,5 +1,18 @@
-## My personal example of an E-Commerce website using React.js, Express.js and MongDB
+## My personal example of an E-Commerce website using React.js, Express.js and MongoDB
 
+##### There are 2 versions of the project, one with front-end implementation only, and one with back-end and front-end:
+
+* branch [***master-frontend***](https://github.com/sebastianpacurar/e-commerce-website_React.js/tree/master-frontend) contains the front-end implementation only version (no DB connection)
+
+* branch ***master*** (the branch you are viewing now) contains the front-end and back-end implementation with MongoDB.
+
+<br />
+
+# Important Notes
+
+* The project currently runs only on Mobile View, which means the UI for desktop is still under construction, therefore for a better experience, after you run the program, please reduce the width of the browser in between 500 - 750 px, and refresh the page.
+
+<br/>
 
 
 # Setup:
@@ -16,6 +29,7 @@
     * MacOS users:
         * Node.js - please download from [here](https://nodejs.org/en/download/), and perform the installation
         * MongoDB - please follow these [instructions](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)  
+
 <br />
 
 2) **Setup MongoDB:**
@@ -50,6 +64,7 @@
             output should contain this line:
             ecomWebsiteDB  0.000GB
         ```
+      
       <br />
 
 3) **Install node modules for back-end and front-end**:    
@@ -57,7 +72,7 @@
         
     * Change directory to **<path_to_repo>/e-commerce-website_React.js/front-end** and run ```npm install``` in the console/terminal/cmd_prompt. This will install the front-end part of the project - React.js
 
-
+<br />
 
 # How to run 
 
@@ -75,12 +90,7 @@
         * It will open a new browser window with the ```http://localhost:3000/``` URL. if this does not happen, please access it by yourself.
 
 
-
-# Side notes
-
-* The project currently runs only on Mobile View, which means the UI for desktop is still under construction, therefore for a better experience, please reduce the width of the browser in between 500 - 750 px
-
-
+<br />
 
 # Creator
 * [Sebastian Pacurar](https://github.com/sebastianpacurar)
