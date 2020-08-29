@@ -1,5 +1,19 @@
 ## My personal example of an E-Commerce website using React.js, Express.js and MongoDB
 
+
+<br />
+
+## IMPORTANT: This Project lacks a lot of CSS improvements and many more. Fixes and better implementations coming soon:
+* adapt existent poor css to a grid system, to make it mobile responsive:
+    * animations and transitions will also be added
+* eject react cra default configuration, and build the configuration from zero:
+    * webpack, babel and eslint will be implemented
+* improve existent backend
+    * SSR and SEO friendly implementations will be made
+    * improve existent db to work for users (meaning 'create account' implementation)
+
+<br />
+
 ##### There are 2 versions of the project, one with front-end implementation only, and one with back-end and front-end:
 
 * branch [***master-frontend***](https://github.com/sebastianpacurar/e-commerce-website_React.js/tree/master-frontend) contains the front-end implementation only version (no DB connection)
